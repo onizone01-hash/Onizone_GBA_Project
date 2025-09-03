@@ -1,0 +1,29 @@
+name: Build GBA Game
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup devkitARM
+      run: |
+        sudo apt update
+        sudo apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi
+
+    - name: Build project
+      run: |
+        make
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Onizone-gba
+        path: Onizone.gba
